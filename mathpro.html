@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathCore | Intelligent Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <link rel="stylesheet" href="mathtpro.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand" id="logo-btn">
+            <i class="ph ph-calculator"></i>
+            <span>MathCore</span>
+        </div>
+        <div class="nav-actions">
+            <button class="icon-btn" id="theme-toggle" aria-label="Toggle Dark Mode">
+                <i class="ph ph-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main class="container">
+        
+       
+        <section id="dashboard-view" class="view-section active">
+            <header class="hero">
+                <h1 class="hero-title">Intelligent Mathematical Calculator</h1>
+                <p class="hero-subtitle">Select a calculator below, enter your values, and receive step-by-step solutions with detailed educational breakdowns.</p>
+            </header>
+
+            <div id="calculator-grid-container">
+            </div>
+        </section>
+        <section id="workspace-view" class="view-section hidden">
+            <button class="btn btn-secondary back-btn" id="back-to-dash">
+                <i class="ph ph-arrow-left"></i> Back to Calculators
+            </button>
+            
+            <div class="workspace-header">
+                <div class="workspace-title-group">
+                    <i id="calc-icon" class="ph ph-function"></i>
+                    <div>
+                        <h2 id="calc-title">Calculator Name</h2>
+                        <p id="calc-desc" class="text-muted">Description goes here</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Inputs Area -->
+            <div class="input-panel glass-panel">
+                <h3 class="panel-title">Enter Values</h3>
+                <form id="calc-form" class="dynamic-inputs" onsubmit="event.preventDefault();">
+                    <!-- Input fields injected via JS -->
+                </form>
+                <div class="action-row">
+                    <button class="btn btn-primary solve-btn" id="calculate-btn">
+                        <span>Calculate Solution</span>
+                        <i class="ph ph-check-circle"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Section (Hidden until calculated) -->
+            <div id="results-area" class="results-area hidden">
+                
+                <h2 class="section-heading">Calculation Results</h2>
+                
+                <div class="results-grid">
+                    <!-- Column 1: Core Solution -->
+                    <div class="main-solution">
+                        
+                        <!-- 1. Final Answer -->
+                        <div class="card result-card">
+                            <h3 class="card-title">1. Final Answer</h3>
+                            <div class="final-answer-box" id="res-final-answer"></div>
+                        </div>
+
+                        <!-- 2. Step-by-Step Breakdown -->
+                        <div class="card">
+                            <h3 class="card-title">2. Step-by-Step Breakdown</h3>
+                            <div class="steps-timeline" id="res-steps"></div>
+                        </div>
+
+                        <!-- 7. Verification -->
+                        <div class="card">
+                            <h3 class="card-title">7. Verification</h3>
+                            <div id="res-verification" class="text-content"></div>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Context & Visuals -->
+                    <div class="context-visuals">
+                        
+                        <!-- 3. Formula Used -->
+                        <div class="card">
+                            <h3 class="card-title">3. Formula Used</h3>
+                            <div id="res-formula" class="math-display"></div>
+                            <div id="res-variables" class="variables-list"></div>
+                        </div>
+
+                        <!-- 4. Simple Explanation -->
+                        <div class="card">
+                            <h3 class="card-title">4. Simple Explanation</h3>
+                            <p id="res-simple-exp" class="text-content"></p>
+                        </div>
+
+                        <!-- 5. Mathematical Explanation -->
+                        <div class="card">
+                            <h3 class="card-title">5. Mathematical Reasoning</h3>
+                            <p id="res-math-exp" class="text-content"></p>
+                        </div>
+
+                        <!-- 6. Graph / Diagram -->
+                        <div class="card">
+                            <h3 class="card-title">6. Graph Visualization</h3>
+                            <div class="chart-container">
+                                <canvas id="mathGraph"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="section-divider">
+
+                <!-- Educational Section -->
+                <h2 class="section-heading">Educational Concept Breakdown</h2>
+                
+                <div class="edu-grid" id="educational-section">
+                    <div class="card edu-card">
+                        <h4>What is this equation?</h4>
+                        <p id="edu-what"></p>
+                    </div>
+                    <div class="card edu-card">
+                        <h4>Why is it used?</h4>
+                        <p id="edu-why"></p>
+                    </div>
+                    <div class="card edu-card">
+                        <h4>Where is it used in real life?</h4>
+                        <p id="edu-real"></p>
+                    </div>
+                    <div class="card edu-card">
+                        <h4>Common Applications</h4>
+                        <ul id="edu-apps"></ul>
+                    </div>
+                    <div class="card edu-card">
+                        <h4>Advantages & Limitations</h4>
+                        <div class="adv-lim-grid">
+                            <div><strong>Advantages:</strong><ul id="edu-adv"></ul></div>
+                            <div><strong>Limitations:</strong><ul id="edu-lim"></ul></div>
+                        </div>
+                    </div>
+                    <div class="card edu-card">
+                        <h4>Common Mistakes</h4>
+                        <ul id="edu-mistakes"></ul>
+                    </div>
+                    <div class="card edu-card">
+                        <h4>Related Concepts</h4>
+                        <ul id="edu-related"></ul>
+                    </div>
+                    <div class="card edu-card practice-card">
+                        <h4>Practice Example</h4>
+                        <p id="edu-practice"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content container">
+            <div class="footer-brand">
+                <i class="ph ph-calculator"></i> MathCore
+                <p class="footer-desc">Premium mathematical computation and learning platform.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="mathpro.js"></script>
+</body>
+</html>
